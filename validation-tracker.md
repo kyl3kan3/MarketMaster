@@ -16,11 +16,11 @@ Work top to bottom. Tick each box as it clears. Each phase has a GATE you must h
 |---|---|---|---|
 | **Higgsfield** | ✅ PASS | Ultra plan, **2,044 credits** | Short-form clip generation is live and well-funded. Highest-confidence connector. |
 | **Canva** | ✅ PASS (caveat) | Authenticated; **0 brand kits** | Carousel generation works. No brand kit configured → output is off-brand until one is added. |
-| **Apollo** | ✅ PASS (build only) | Authenticated (Kyle Kane); **2,500 lead credits, 250k AI credits** | Can build the sequence now. Sending still waits on domain warmup (weeks 4-6). |
+| **Apollo** | ✅ PASS — **sequence built (inactive)** | Authenticated (Kyle Kane); **2,500 lead credits, 250k AI credits** | 4-step sequence created `active:false` (id `6a3aeafb…ff73`). No contacts enrolled, no sends. Activation waits on warmup (weeks 4-6). |
 | **Gmail** | ✅ PASS (fallback) | Authenticated; labels readable | Usable as an owned-audience email fallback (create drafts). Not a list/ESP. |
 | **LinkedIn** | 🟡 FALLBACK | No publish connector | No direct API. Route = manual paste or Zapier→Buffer. Ahrefs social tools are read-only analytics, not publishing. |
 | **X / other social** | 🟡 FALLBACK | No publish connector | Same as LinkedIn — manual or Zapier/Buffer scheduling. |
-| **Mailchimp** | 🟡 HELD | Connector loaded | Dedicated MCP connector is available (campaign_planner, edit_campaign, get_analytics, save_to_mailchimp). Draft-create + self-test-send is an outward action **held for your go-ahead**. Note: Supermetrics' separate Mailchimp *analytics* source is NOT authenticated. |
+| **Mailchimp** | 🟡 FALLBACK — **email draft created** | Connector loaded; MCP can't send | MCP supports plan/design/save only — sending is app-only. The email atom was created as a **Gmail draft to yourself** (id `r87271…`) as the test-to-self. Finalize the real send in Mailchimp or Gmail. |
 | **Ahrefs** | ❌ FAIL (plan) | "Insufficient plan" | Current plan does not expose MCP/API access. Keyword + AI-citation pulls blocked. (The free public domain-rating endpoint may still work as a thin fallback.) |
 | **Semrush** | ❌ FAIL (plan) | No MCP access on plan | Plan does not include MCP access. Upgrade at https://www.semrush.com/mcp-access to unlock keyword data. |
 | **Supermetrics / GA4** | ❌ FAIL (auth) | **0 of 172 sources authenticated** | GA4 (GAWA) is NOT_AUTHENTICATED; login link available. Until you log in, the measurement/optimize loop is decorative. |
@@ -37,7 +37,24 @@ Work top to bottom. Tick each box as it clears. Each phase has a GATE you must h
 2. **Keyword data** — either upgrade Ahrefs/Semrush to a plan with MCP/API access, or accept manual keyword research as the documented fallback. Decide which; the offer scope depends on it.
 3. **Owned-audience destination** — there is no real list + signup form yet. Stand one up (and a Canva brand kit) so generated assets have somewhere to point.
 4. **Domain warmup** — not started. This is the day-one, can't-be-rushed item. Buy the sending domain, set SPF/DKIM/DMARC, begin warming.
-5. **Go-ahead for outward actions** — say the word and I'll run the live Mailchimp draft + self-test-send and build the Apollo sequence (no live sends until warm).
+5. ~~Go-ahead for outward actions~~ — **DONE (2026-06-23):** Apollo sequence built inactive + email draft created to yourself. Nothing sent. Activate Apollo only after warmup.
+
+---
+
+## ▶ Execution update — 2026-06-23 (outward actions you authorized)
+
+Both done; **nothing was sent**, both are reversible:
+
+- **Apollo** — built a 4-step cold-outbound sequence **inactive** (`active:false`):
+  `Distribution Engine — Founders & Creators (warmup-gated)`, id
+  `6a3aeafb2181cc0014f1ff73` → https://app.apollo.io#/sequences/6a3aeafb2181cc0014f1ff73.
+  No contacts enrolled; do **not** activate until the domain is warm. Edit the
+  ICP/copy in Apollo, then enroll + approve when ready.
+- **Email** — the engine's email atom was saved as a **Gmail draft to yourself**
+  (id `r8727177065748110764`). Mailchimp MCP can't send (app-only), so this is the
+  documented fallback; finalize the real send in Mailchimp or Gmail.
+
+Delete either if unwanted — both are drafts/inactive in your own accounts.
 
 ---
 
@@ -68,14 +85,14 @@ Connector test matrix (real result logged 2026-06-23):
 
 | Connector | Action the engine needs | Status (pass / fail / fallback) | Notes |
 |---|---|---|---|
-| Mailchimp or Brevo | Create a real draft campaign, send test to yourself | **HELD** (connector live; outward step pending go-ahead) | Dedicated Mailchimp MCP connector loaded. Draft+self-send not run (outward action). No Brevo connector present. |
+| Mailchimp or Brevo | Create a real draft campaign, send test to yourself | **FALLBACK — done** | MCP can't send; email atom created as a Gmail draft to yourself (id `r87271…`). Finalize the send in Mailchimp/Gmail. No Brevo connector present. |
 | LinkedIn (via Buffer/Zapier or manual) | Queue + publish one real post | **FALLBACK** | No direct publish API; route via Zapier→Buffer or manual paste, as expected. |
 | X / other social | Queue + publish one real post | **FALLBACK** | Same caveat — manual or Zapier/Buffer. |
 | Ahrefs or Semrush | Pull real keyword + AI-citation data, shape a pillar | **FAIL (plan)** | Ahrefs: "Insufficient plan." Semrush: no MCP access on plan. Both gated. Upgrade or use manual fallback. |
 | Canva | Produce one real carousel from the slide outline | **PASS** (caveat) | Authenticated. 0 brand kits → add one before quality-checking output. |
 | Higgsfield | Produce one real short-form clip from the script | **PASS** | Ultra plan, 2,044 credits. Strongest connector. |
 | Supermetrics / GA4 | Get real numbers into one view + AI-search channel group | **FAIL (auth)** | GA4 NOT_AUTHENTICATED; 0/172 sources connected. Log in to unblock. |
-| Apollo (slow track) | Build sequence; sending waits on warmup | **PASS (build only)** | Authenticated; 2,500 lead + 250k AI credits. Build now, send weeks 4-6. |
+| Apollo (slow track) | Build sequence; sending waits on warmup | **PASS — built (inactive)** | 4-step sequence created `active:false` (id `6a3aeafb2181cc0014f1ff73`, https://app.apollo.io#/sequences/6a3aeafb2181cc0014f1ff73). No contacts enrolled; no sends until warm. |
 
 - [ ] Every row above marked pass or fallback (a read-only or missing action is a finding, not a failure) — *not yet: Ahrefs, Semrush, and GA4 are hard fails on plan/auth, not fallbacks. Clear those three to close the gate.*
 
@@ -114,7 +131,7 @@ Connector test matrix (real result logged 2026-06-23):
 - [ ] One full pillar has gone live and produced measurable engagement — *not started; also blocked by GA4 auth*
 - [ ] Copy is good enough to send to a client unedited — *not yet assessed*
 - [ ] Measurement produces real numbers you can read back — *GA4 unauthenticated*
-- [ ] Cold outbound has warmed and sent at least one real sequence (lags to ~week 4-6) — *warmup not started; Apollo ready to build*
+- [ ] Cold outbound has warmed and sent at least one real sequence (lags to ~week 4-6) — *sequence BUILT inactive (id `6a3aeafb…ff73`); still needs warmup before it can send*
 
 ---
 

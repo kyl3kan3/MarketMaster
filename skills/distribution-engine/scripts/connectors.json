@@ -7,7 +7,12 @@
     "brand_kit_configured": false,
     "domain_warmup_started": false,
     "domain_warmup_complete": false,
-    "code_execution_confirmed": false
+    "code_execution_confirmed": false,
+    "outbound_sequence_built": true,
+    "email_draft_created": true,
+    "first_pillar_live": false,
+    "first_sequence_sent": false,
+    "copy_signed_off": false
   },
   "connectors": [
     {
@@ -16,7 +21,7 @@
       "category": "distribute",
       "engine_modes": ["distribute", "validate"],
       "status": "fallback",
-      "detail": "Mailchimp MCP supports planning/content/design/save/analytics; sending and test-sends are app-only. No Brevo connector.",
+      "detail": "Mailchimp MCP supports planning/content/design/save/analytics; sending and test-sends are app-only. Email atom saved as a Gmail draft (id r8727177065748110764). No Brevo connector.",
       "primary_tools": ["mcp__Intuit_Mailchimp__campaign_planner", "mcp__Intuit_Mailchimp__save_to_mailchimp", "mcp__Intuit_Mailchimp__edit_campaign"],
       "fallback": "Gmail create_draft for a small owned list; finalize/send in the Mailchimp app.",
       "blocker": "No MCP send path; owned list must exist.",
@@ -88,7 +93,7 @@
       "category": "distribute",
       "engine_modes": ["distribute"],
       "status": "pass",
-      "detail": "Authenticated; 2,500 lead + 250k AI credits. Build now, INACTIVE; send only after warmup.",
+      "detail": "Authenticated; 2,500 lead + 250k AI credits. 4-step sequence BUILT inactive (id 6a3aeafb2181cc0014f1ff73). Send only after warmup.",
       "primary_tools": ["mcp__Apollo_io__apollo_sequences_create", "mcp__Apollo_io__apollo_emailer_campaigns_search", "mcp__Apollo_io__apollo_email_accounts_index"],
       "fallback": "Manual outreach from the engine's sequence copy.",
       "blocker": "Activation gated on domain warmup (~week 4-6).",
