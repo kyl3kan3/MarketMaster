@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--
+  Owned-audience signup form — the one destination every atom funnels to.
+  Self-contained (no build step, no external JS). Drop it on any static host
+  (Netlify, GitHub Pages, Cloudflare Pages) or embed the <form> in your site.
+
+  Wire it up in ONE place below:
+    data-endpoint  = your list provider's form-action URL
+                     (Mailchimp embedded form action, Brevo, ConvertKit, a
+                      Formspree URL, or your own /subscribe handler)
+
+  It captures UTM params from the page URL so GA4 / your ESP can attribute which
+  atom drove the signup. Followers are rented; this list is owned.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Join the list</title>
+  <style>
+    :root { --ink:#0f172a; --muted:#64748b; --brand:#4f46e5; --bg:#f8fafc; }
+    * { box-sizing: border-box; }
+    body { margin:0; font:16px/1.5 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+           background:var(--bg); color:var(--ink); display:grid; place-items:center; min-height:100vh; padding:24px; }
+    .card { background:#fff; max-width:440px; width:100%; border:1px solid #e2e8f0;
+            border-radius:16px; padding:32px; box-shadow:0 10px 30px rgba(2,6,23,.06); }
+    h1 { font-size:24px; margin:0 0 8px; letter-spacing:-.02em; }
+    p.sub { color:var(--muted); margin:0 0 20px; }
+    label { font-size:13px; font-weight:600; color:var(--muted); display:block; margin:14px 0 6px; }
+    input[type=email], input[type=text] { width:100%; padding:12px 14px; border:1px solid #cbd5e1;
+            border-radius:10px; font-size:16px; }
+    button { width:100%; margin-top:18px; padding:13px 16px; border:0; border-radius:10px;
+             background:var(--brand); color:#fff; font-size:16px; font-weight:600; cursor:pointer; }
+    button:hover { filter:brightness(1.05); }
+    .fine { font-size:12px; color:var(--muted); margin-top:14px; }
+    .ok { display:none; color:#15803d; font-weight:600; margin-top:14px; }
+    /* honeypot: hidden from humans, catches bots */
+    .hp { position:absolute; left:-9999px; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Get the distribution playbook</h1>
+    <p class="sub">One pillar, twenty atoms, live in a week. Join the list for the
+      next breakdown — no spam, unsubscribe anytime.</p>
+
+    <form id="signup" data-endpoint="REPLACE_WITH_YOUR_LIST_ENDPOINT" method="post">
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" required placeholder="you@work.com" autocomplete="email" />
+
+      <label for="name">First name <span style="font-weight:400">(optional)</span></label>
+      <input id="name" name="name" type="text" placeholder="Sam" autocomplete="given-name" />
+
+      <!-- honeypot -->
+      <div class="hp" aria-hidden="true">
+        <label>Leave blank</label>
+        <input name="company_website" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <!-- UTM + referrer, filled by script for attribution -->
+      <input type="hidden" name="utm_source" />
+      <input type="hidden" name="utm_medium" />
+      <input type="hidden" name="utm_campaign" />
+      <input type="hidden" name="referrer" />
+
+      <button type="submit">Join the list →</button>
+      <p class="ok" id="ok">You're in. Check your inbox to confirm.</p>
+      <p class="fine">We send the good stuff and nothing else.</p>
+    </form>
+  </main>
+
+  <script>
+    (function () {
+      var form = document.getElementById('signup');
+      var qs = new URLSearchParams(location.search);
+      ['utm_source', 'utm_medium', 'utm_campaign'].forEach(function (k) {
+        var el = form.elements[k]; if (el) el.value = qs.get(k) || '';
+      });
+      if (form.elements['referrer']) form.elements['referrer'].value = document.referrer || '';
+
+      form.addEventListener('submit', function (e) {
+        // bot caught by honeypot → silently drop
+        if (form.elements['company_website'].value) { e.preventDefault(); return; }
+        var endpoint = form.getAttribute('data-endpoint');
+        if (!endpoint || endpoint.indexOf('REPLACE_WITH') === 0) {
+          e.preventDefault();
+          alert('Set data-endpoint to your list provider before going live.');
+          return;
+        }
+        // Let the native POST go to your ESP. To do an async post instead,
+        // preventDefault() here and fetch(endpoint, {method:'POST', body:new FormData(form)}).
+        document.getElementById('ok').style.display = 'block';
+      });
+    })();
+  </script>
+</body>
+</html>

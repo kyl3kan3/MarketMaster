@@ -1,0 +1,9 @@
+# engine run artifacts
+out/
+**/out/
+# packaged skill bundles
+dist/
+# python
+__pycache__/
+*.pyc
+.venv/

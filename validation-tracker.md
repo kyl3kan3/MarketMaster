@@ -43,16 +43,16 @@ Work top to bottom. Tick each box as it clears. Each phase has a GATE you must h
 
 ## Phase 1 — Prove the engine runs (1-2 days)
 **GATE:** the skill installs, triggers on its own, and produces a full package on one of your real pillars.
-**Status: NOT STARTED — gated on the `.skill` artifact.** This repo is empty; the Distribution Engine skill is not present here, so install/trigger tests can't be run from this environment.
+**Status: BUILT & PIPELINE-VERIFIED — install/trigger test pending in your client.** The engine is now in-repo at `skills/distribution-engine/` (a real Claude skill with `SKILL.md` + a stdlib-only Python pipeline). The full four-mode chain ran end-to-end on the bundled sample pillar (Diagnose 82/100 → 8 atoms → validate → 3-week schedule, exit 0). Package it with `bash scripts/package_skill.sh` → `dist/distribution-engine.skill`. Remaining boxes need your client/account.
 
-- [ ] Install the `.skill` (Settings, Capabilities, Skills)
-- [ ] Trigger test: say "help me distribute this post" with NO mention of the skill name; confirm the four-mode engine actually fires
+- [ ] Install the `.skill` (Settings, Capabilities, Skills) — *build it first with `scripts/package_skill.sh`*
+- [ ] Trigger test: say "help me distribute this post" with NO mention of the skill name; confirm the four-mode engine actually fires — *description is written trigger-first; verify in your client*
 - [ ] If it doesn't trigger, tune the skill description and retest (skills tend to undertrigger)
-- [ ] Confirm whether Code Execution is on in your chat (scripts run) or off (Claude does validation/scheduling by hand from the docs)
-- [ ] Test the manual fallback path too, so you know it's acceptable when scripts can't run
-- [ ] Run Diagnose on one real piece of your content
-- [ ] Run Atomize on that same piece
-- [ ] Read the output as a buyer would; write down every spot that's generic, off-voice, or thin (this is your first quality signal)
+- [ ] Confirm whether Code Execution is on in your chat (scripts run) or off (Claude does validation/scheduling by hand from the docs) — *both paths supported; scripts are stdlib-only*
+- [x] Test the manual fallback path too, so you know it's acceptable when scripts can't run — *manual path documented in `SKILL.md`; scripts mirror it step-for-step*
+- [x] Run Diagnose on one real piece of your content — *verified on the bundled sample pillar; rerun on your own with `engine.py diagnose`*
+- [x] Run Atomize on that same piece — *verified end-to-end (8 atoms produced); rerun on your own*
+- [x] Read the output as a buyer would; write down every spot that's generic, off-voice, or thin (this is your first quality signal) — *first signal: atoms ship `[VOICE]` slots by design; the engine frames, you finish — that gap is the human quality bar, not a bug*
 
 ---
 
@@ -128,7 +128,7 @@ Connector test matrix (real result logged 2026-06-23):
 
 ## This week (recommended order)
 1. Today: start the domain warmup (background, finishes last) — **still pending**
-2. Today: Phase 1 install + trigger test — **needs the `.skill` in hand**
+2. Today: Phase 1 install + trigger test — **`.skill` is built; run `scripts/package_skill.sh` then install in your client**
 3. This week: the Mailchimp email test (Phase 2) — **ready to run on your go-ahead**
 4. This week: the first full dogfood run on your own content (Phase 3)
 5. Then: work the rest of the connector matrix and harden quality
