@@ -1,0 +1,115 @@
+{
+  "validated_on": "2026-06-23",
+  "note": "Live status from real read-only probes. Update with engine.py validate --set <id>=<status>.",
+  "infra": {
+    "owned_list_exists": false,
+    "signup_form_live": false,
+    "brand_kit_configured": false,
+    "domain_warmup_started": false,
+    "domain_warmup_complete": false,
+    "code_execution_confirmed": false,
+    "outbound_sequence_built": true,
+    "email_draft_created": true,
+    "first_pillar_live": false,
+    "first_sequence_sent": false,
+    "copy_signed_off": false
+  },
+  "connectors": [
+    {
+      "id": "email",
+      "name": "Email — Mailchimp",
+      "category": "distribute",
+      "engine_modes": ["distribute", "validate"],
+      "status": "fallback",
+      "detail": "Mailchimp MCP supports planning/content/design/save/analytics; sending and test-sends are app-only. Email atom saved as a Gmail draft (id r8727177065748110764). No Brevo connector.",
+      "primary_tools": ["mcp__Intuit_Mailchimp__campaign_planner", "mcp__Intuit_Mailchimp__save_to_mailchimp", "mcp__Intuit_Mailchimp__edit_campaign"],
+      "fallback": "Gmail create_draft for a small owned list; finalize/send in the Mailchimp app.",
+      "blocker": "No MCP send path; owned list must exist.",
+      "playbook": "references/email-mailchimp.md"
+    },
+    {
+      "id": "social",
+      "name": "Social — LinkedIn & X",
+      "category": "distribute",
+      "engine_modes": ["distribute", "schedule"],
+      "status": "fallback",
+      "detail": "No native publish connector. Route via Zapier->Buffer or manual. Ahrefs social tools are read-only analytics.",
+      "primary_tools": ["mcp__Zapier__get_configuration_url"],
+      "fallback": "Manual post / Buffer queue from engine-produced assets.",
+      "blocker": "No direct LinkedIn/X publish API.",
+      "playbook": "references/social-linkedin-x.md"
+    },
+    {
+      "id": "keyword",
+      "name": "Keyword & AI-citation — Ahrefs / Semrush",
+      "category": "diagnose",
+      "engine_modes": ["diagnose"],
+      "status": "fail",
+      "detail": "Ahrefs returned 'Insufficient plan'; Semrush plan lacks MCP access. Both gated.",
+      "primary_tools": ["mcp__Ahrefs__keywords-explorer-overview", "mcp__Semrush__keyword_research"],
+      "fallback": "Manual: autocomplete + People-Also-Ask + ask-the-assistants citation harvesting.",
+      "blocker": "Paid plans do not expose MCP/API. Upgrade or use manual fallback.",
+      "playbook": "references/keyword-ahrefs-semrush.md"
+    },
+    {
+      "id": "design",
+      "name": "Design / carousels — Canva",
+      "category": "atomize",
+      "engine_modes": ["atomize", "distribute"],
+      "status": "pass",
+      "detail": "Authenticated. 0 brand kits configured -> off-brand risk until one is added.",
+      "primary_tools": ["mcp__Canva__generate-design-structured", "mcp__Canva__export-design", "mcp__Canva__list-brand-kits"],
+      "fallback": "Hand-build the carousel in Canva from the engine's slide outline.",
+      "blocker": "No brand kit yet (quality caveat, not a hard block).",
+      "playbook": "references/design-canva.md"
+    },
+    {
+      "id": "video",
+      "name": "Short-form video — Higgsfield",
+      "category": "atomize",
+      "engine_modes": ["atomize", "distribute"],
+      "status": "pass",
+      "detail": "Ultra plan, ~2,044 credits. Live and well-funded.",
+      "primary_tools": ["mcp__Higgsfield__generate_video", "mcp__Higgsfield__reframe", "mcp__Higgsfield__virality_predictor"],
+      "fallback": "Manual edit from the engine's script in any video tool.",
+      "blocker": null,
+      "playbook": "references/video-higgsfield.md"
+    },
+    {
+      "id": "measurement",
+      "name": "Measurement — Supermetrics / GA4",
+      "category": "optimize",
+      "engine_modes": ["validate", "optimize"],
+      "status": "fail",
+      "detail": "GA4 (GAWA) NOT_AUTHENTICATED; 0 of 172 sources connected. Login link available.",
+      "primary_tools": ["mcp__Supermetrics_Marketing_Analytics__data_source_discovery", "mcp__Supermetrics_Marketing_Analytics__data_query"],
+      "fallback": "Read GA4 web UI manually; rely on UTM tags + form-backend counts.",
+      "blocker": "One-click GA4 login required before any numbers flow.",
+      "playbook": "references/measurement-ga4.md"
+    },
+    {
+      "id": "outbound",
+      "name": "Cold outbound — Apollo (slow track)",
+      "category": "distribute",
+      "engine_modes": ["distribute"],
+      "status": "pass",
+      "detail": "Authenticated; 2,500 lead + 250k AI credits. 4-step sequence BUILT inactive (id 6a3aeafb2181cc0014f1ff73). Send only after warmup.",
+      "primary_tools": ["mcp__Apollo_io__apollo_sequences_create", "mcp__Apollo_io__apollo_emailer_campaigns_search", "mcp__Apollo_io__apollo_email_accounts_index"],
+      "fallback": "Manual outreach from the engine's sequence copy.",
+      "blocker": "Activation gated on domain warmup (~week 4-6).",
+      "playbook": "references/outbound-apollo.md"
+    },
+    {
+      "id": "warmup",
+      "name": "Cold-email domain warmup (day-one process)",
+      "category": "process",
+      "engine_modes": [],
+      "status": "blocked",
+      "detail": "Not started. Hard 2-6 week floor; gates the outbound connector.",
+      "primary_tools": [],
+      "fallback": "None — this is infrastructure, not a connector.",
+      "blocker": "Buy sending domain, set SPF/DKIM/DMARC, warm gradually, build verified list.",
+      "playbook": "references/domain-warmup.md"
+    }
+  ]
+}
