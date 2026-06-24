@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<!--
+  Owned-audience landing PAGE — the one destination every atom funnels to.
+  Self-contained (no build step, no external CSS/JS, no fonts, no trackers).
+  Drop it on any static host (Cloudflare Pages, Netlify, GitHub Pages).
+
+  Wire it up in ONE place below:
+    data-endpoint  = your list provider's form-action URL
+                     (Mailchimp embedded-form action, Brevo, ConvertKit, a
+                      Formspree URL, or your own /subscribe handler)
+
+  It captures UTM params + referrer from the page URL so GA4 / your ESP can
+  attribute which atom drove the signup. Followers are rented; this list is owned.
+
+  See docs/owned-audience-setup.md for the full create-list → host walkthrough.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Get the distribution playbook</title>
+  <meta name="description" content="One pillar, twenty atoms, live in a week. Join the list for the next breakdown — no spam, unsubscribe anytime." />
+  <style>
+    :root {
+      --ink:#0f172a; --muted:#64748b; --brand:#4f46e5; --brand-2:#7c3aed;
+      --bg:#f8fafc; --line:#e2e8f0; --ok:#15803d;
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin:0;
+      font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:var(--bg); color:var(--ink);
+    }
+    a { color:var(--brand); }
+
+    /* ---- layout shell ---- */
+    .wrap { max-width:1080px; margin:0 auto; padding:0 24px; }
+    .hero {
+      position:relative; overflow:hidden;
+      background:
+        radial-gradient(1200px 500px at 80% -10%, rgba(124,58,237,.18), transparent 60%),
+        radial-gradient(900px 400px at 0% 0%, rgba(79,70,229,.14), transparent 55%),
+        #fff;
+      border-bottom:1px solid var(--line);
+    }
+    .hero-inner {
+      display:grid; grid-template-columns:1.1fr .9fr; gap:48px; align-items:center;
+      padding:72px 0 64px;
+    }
+
+    .eyebrow {
+      display:inline-block; font-size:12px; font-weight:700; letter-spacing:.08em;
+      text-transform:uppercase; color:var(--brand);
+      background:rgba(79,70,229,.08); border:1px solid rgba(79,70,229,.18);
+      padding:6px 12px; border-radius:999px; margin:0 0 18px;
+    }
+    h1 {
+      font-size:44px; line-height:1.1; letter-spacing:-.025em; margin:0 0 16px;
+      background:linear-gradient(90deg,var(--ink),#334155);
+      -webkit-background-clip:text; background-clip:text;
+    }
+    .subhead { font-size:19px; color:var(--muted); margin:0 0 28px; max-width:34ch; }
+
+    /* ---- value bullets ---- */
+    ul.values { list-style:none; margin:0 0 8px; padding:0; }
+    ul.values li {
+      position:relative; padding:10px 0 10px 38px; font-size:16px; color:var(--ink);
+    }
+    ul.values li + li { border-top:1px solid var(--line); }
+    ul.values li::before {
+      content:""; position:absolute; left:0; top:14px;
+      width:22px; height:22px; border-radius:50%;
+      background:var(--brand);
+      -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='black' d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/></svg>") center/14px no-repeat;
+      mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='black' d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/></svg>") center/14px no-repeat;
+    }
+    ul.values li b { font-weight:600; }
+
+    /* ---- capture card ---- */
+    .card {
+      background:#fff; border:1px solid var(--line); border-radius:18px;
+      padding:28px; box-shadow:0 18px 50px rgba(2,6,23,.10);
+    }
+    .card h2 { font-size:20px; margin:0 0 6px; letter-spacing:-.01em; }
+    .card p.lead { color:var(--muted); margin:0 0 16px; font-size:15px; }
+    label {
+      font-size:13px; font-weight:600; color:var(--muted);
+      display:block; margin:12px 0 6px;
+    }
+    label span { font-weight:400; }
+    input[type=email], input[type=text] {
+      width:100%; padding:12px 14px; border:1px solid #cbd5e1;
+      border-radius:10px; font-size:16px; color:var(--ink); background:#fff;
+    }
+    input:focus { outline:2px solid var(--brand); outline-offset:1px; border-color:var(--brand); }
+    button {
+      width:100%; margin-top:18px; padding:14px 16px; border:0; border-radius:10px;
+      background:linear-gradient(90deg,var(--brand),var(--brand-2));
+      color:#fff; font-size:16px; font-weight:700; cursor:pointer;
+    }
+    button:hover { filter:brightness(1.06); }
+    .fine { font-size:12px; color:var(--muted); margin-top:14px; }
+    .ok { display:none; color:var(--ok); font-weight:600; margin-top:14px; }
+    /* honeypot: hidden from humans, catches bots */
+    .hp { position:absolute; left:-9999px; }
+
+    /* ---- social proof ---- */
+    .proof {
+      margin-top:22px; padding-top:18px; border-top:1px solid var(--line);
+      display:flex; align-items:center; gap:12px;
+    }
+    .avatars { display:flex; }
+    .avatars span {
+      width:30px; height:30px; border-radius:50%; margin-left:-8px;
+      border:2px solid #fff; background:linear-gradient(135deg,var(--brand),var(--brand-2));
+      display:inline-block;
+    }
+    .avatars span:first-child { margin-left:0; }
+    .proof-text { font-size:13px; color:var(--muted); }
+    .proof-text b { color:var(--ink); }
+    .stars { color:#f59e0b; letter-spacing:1px; }
+
+    /* ---- footer ---- */
+    footer {
+      border-top:1px solid var(--line); background:#fff;
+      color:var(--muted); font-size:13px;
+    }
+    .foot-inner {
+      display:flex; flex-wrap:wrap; gap:12px 24px; justify-content:space-between;
+      align-items:center; padding:28px 0;
+    }
+    footer a { color:var(--muted); text-decoration:none; }
+    footer a:hover { color:var(--ink); text-decoration:underline; }
+    .foot-links { display:flex; gap:18px; flex-wrap:wrap; }
+
+    /* ---- responsive ---- */
+    @media (max-width:820px) {
+      .hero-inner { grid-template-columns:1fr; gap:32px; padding:48px 0 40px; }
+      h1 { font-size:34px; }
+      .subhead { font-size:17px; max-width:none; }
+      .foot-inner { flex-direction:column; align-items:flex-start; }
+    }
+    @media (max-width:420px) {
+      h1 { font-size:28px; }
+      .card { padding:22px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ===================== HERO ===================== -->
+  <header class="hero">
+    <div class="wrap hero-inner">
+      <section>
+        <span class="eyebrow">The owned audience</span>
+        <h1>Turn one idea into a week of distribution.</h1>
+        <p class="subhead">One pillar, twenty atoms, live in a week. Join the list and
+          get the next teardown the moment it ships — straight to your inbox.</p>
+
+        <ul class="values">
+          <li><b>Atomize once, ship everywhere.</b> A single pillar becomes 20 channel-ready posts.</li>
+          <li><b>Own the audience.</b> Email you keep beats followers a platform can take away.</li>
+          <li><b>Steal the playbook.</b> Real teardowns, templates, and the exact cadence — no theory.</li>
+        </ul>
+      </section>
+
+      <!-- ===================== CAPTURE FORM ===================== -->
+      <section class="card" aria-label="Newsletter signup">
+        <h2>Get the distribution playbook</h2>
+        <p class="lead">No spam, unsubscribe anytime. One good email a week.</p>
+
+        <form id="signup" data-endpoint="REPLACE_WITH_YOUR_LIST_ENDPOINT" method="post">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required placeholder="you@work.com" autocomplete="email" />
+
+          <label for="name">First name <span>(optional)</span></label>
+          <input id="name" name="name" type="text" placeholder="Sam" autocomplete="given-name" />
+
+          <!-- honeypot -->
+          <div class="hp" aria-hidden="true">
+            <label>Leave blank</label>
+            <input name="company_website" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <!-- UTM + referrer, filled by script for attribution -->
+          <input type="hidden" name="utm_source" />
+          <input type="hidden" name="utm_medium" />
+          <input type="hidden" name="utm_campaign" />
+          <input type="hidden" name="referrer" />
+
+          <button type="submit">Join the list →</button>
+          <p class="ok" id="ok">You're in. Check your inbox to confirm.</p>
+          <p class="fine">We send the good stuff and nothing else.</p>
+        </form>
+
+        <!-- social-proof placeholder -->
+        <div class="proof">
+          <div class="avatars" aria-hidden="true">
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <div class="proof-text">
+            <span class="stars">★★★★★</span><br />
+            Joined by <b>2,400+</b> builders and marketers.
+          </div>
+        </div>
+      </section>
+    </div>
+  </header>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer>
+    <div class="wrap foot-inner">
+      <div>© <span id="year">2026</span> Your Brand. Built on an owned audience.</div>
+      <nav class="foot-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="mailto:hello@yourbrand.com">Contact</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var form = document.getElementById('signup');
+      var qs = new URLSearchParams(location.search);
+      ['utm_source', 'utm_medium', 'utm_campaign'].forEach(function (k) {
+        var el = form.elements[k]; if (el) el.value = qs.get(k) || '';
+      });
+      if (form.elements['referrer']) form.elements['referrer'].value = document.referrer || '';
+
+      // keep the footer year current without a build step
+      var y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear();
+
+      form.addEventListener('submit', function (e) {
+        // bot caught by honeypot → silently drop
+        if (form.elements['company_website'].value) { e.preventDefault(); return; }
+        var endpoint = form.getAttribute('data-endpoint');
+        if (!endpoint || endpoint.indexOf('REPLACE_WITH') === 0) {
+          e.preventDefault();
+          alert('Set data-endpoint to your list provider before going live.');
+          return;
+        }
+        // Let the native POST go to your ESP. To do an async post instead,
+        // preventDefault() here and fetch(endpoint, {method:'POST', body:new FormData(form)}).
+        document.getElementById('ok').style.display = 'block';
+      });
+    })();
+  </script>
+</body>
+</html>
