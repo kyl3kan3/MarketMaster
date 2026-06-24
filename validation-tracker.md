@@ -14,8 +14,8 @@ Work top to bottom. Tick each box as it clears. Each phase has a GATE you must h
 
 | Connector | Live status | Plan / auth | What it means |
 |---|---|---|---|
-| **Higgsfield** | ✅ PASS | Ultra plan, **2,044 credits** | Short-form clip generation is live and well-funded. Highest-confidence connector. |
-| **Canva** | ✅ PASS (caveat) | Authenticated; **0 brand kits** | Carousel generation works. No brand kit configured → output is off-brand until one is added. |
+| **Higgsfield** | ✅ PASS — **clip produced** | Ultra plan, **2,044 credits** | Real 9:16 short generated (kling3_0_turbo, 720p). Live and well-funded. |
+| **Canva** | ✅ PASS — **carousel produced** | Authenticated; **0 brand kits** | Real 8-slide carousel generated (4 variants). No brand kit yet → output is off-brand until one is added. |
 | **Apollo** | ✅ PASS — **sequence built (inactive)** | Authenticated (Kyle Kane); **2,500 lead credits, 250k AI credits** | 4-step sequence created `active:false` (id `6a3aeafb…ff73`). No contacts enrolled, no sends. Activation waits on warmup (weeks 4-6). |
 | **Gmail** | ✅ PASS (fallback) | Authenticated; labels readable | Usable as an owned-audience email fallback (create drafts). Not a list/ESP. |
 | **LinkedIn** | 🟡 FALLBACK | No publish connector | No direct API. Route = manual paste or Zapier→Buffer. Ahrefs social tools are read-only analytics, not publishing. |
@@ -91,8 +91,8 @@ Connector test matrix (real result logged 2026-06-23):
 | LinkedIn (via Buffer/Zapier or manual) | Queue + publish one real post | **FALLBACK** | No direct publish API; route via Zapier→Buffer or manual paste, as expected. |
 | X / other social | Queue + publish one real post | **FALLBACK** | Same caveat — manual or Zapier/Buffer. |
 | Ahrefs or Semrush | Pull real keyword + AI-citation data, shape a pillar | **FAIL (plan)** | Ahrefs: "Insufficient plan." Semrush: no MCP access on plan. Both gated. Upgrade or use manual fallback. |
-| Canva | Produce one real carousel from the slide outline | **PASS** (caveat) | Authenticated. 0 brand kits → add one before quality-checking output. |
-| Higgsfield | Produce one real short-form clip from the script | **PASS** | Ultra plan, 2,044 credits. Strongest connector. |
+| Canva | Produce one real carousel from the slide outline | **PASS — carousel produced** | Real 8-slide carousel generated (4 variants), e.g. https://www.canva.com/d/76AyTSD22l_u9qp. Add a brand kit for on-brand output. |
+| Higgsfield | Produce one real short-form clip from the script | **PASS — clip produced** | Real 9:16 short generated via kling3_0_turbo (720p, 5s). Ultra plan, 2,044 credits. |
 | Supermetrics / GA4 | Get real numbers into one view + AI-search channel group | **FAIL (auth)** | GA4 NOT_AUTHENTICATED; 0/172 sources connected. Log in to unblock. |
 | Apollo (slow track) | Build sequence; sending waits on warmup | **PASS — built (inactive)** | 4-step sequence created `active:false` (id `6a3aeafb2181cc0014f1ff73`, https://app.apollo.io#/sequences/6a3aeafb2181cc0014f1ff73). No contacts enrolled; no sends until warm. |
 
