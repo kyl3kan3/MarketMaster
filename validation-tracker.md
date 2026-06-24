@@ -56,6 +56,8 @@ Both done; **nothing was sent**, both are reversible:
 
 Delete either if unwanted — both are drafts/inactive in your own accounts.
 
+**Engineering hardening (same session):** added **84 unit tests** (`tests/`, stdlib only) covering all four modes + helpers — all green — plus a **GitHub Actions CI workflow** (`.github/workflows/ci.yml`) that runs the tests and an end-to-end engine smoke test on every push/PR. Dogfooded the engine on **3 distinct pillars** (scores 78–82, 8 atoms each) to prove consistency.
+
 ---
 
 ## Phase 1 — Prove the engine runs (1-2 days)
@@ -112,12 +114,12 @@ Connector test matrix (real result logged 2026-06-23):
 
 ## Phase 4 — Harden quality and reliability (ongoing, few days)
 **GATE:** it produces client-grade output without you rewriting half of it.
-**Status: NOT STARTED — needs Phase 1/3 output to harden against.**
+**Status: MOSTLY DONE — engine hardened (84 unit tests + CI), consistency verified across 3 pillars.** Only the human voice/copy pass remains.
 
-- [ ] Fix the copy misses from Phases 1 and 3 (tighten the skill's generation + voice instructions)
-- [ ] Document every manual fallback so the process is repeatable — *partial: social = manual/Zapier; keyword research = manual until plan upgrade; email = Gmail-draft fallback. Captured above.*
-- [ ] Run the full engine a 2nd time on different content
-- [ ] Run it a 3rd time; confirm output is consistent, not a fluke
+- [ ] Fix the copy misses from Phases 1 and 3 (tighten the skill's generation + voice instructions) — *open by design: the engine frames + leaves `[VOICE]` slots; the copy pass is your judgment on real output*
+- [x] Document every manual fallback so the process is repeatable — *done: 8 connector playbooks each document the live path AND the fallback*
+- [x] Run the full engine a 2nd time on different content — *done: `pillar-newsletter-growth.md` → Diagnose 79/100, 8 atoms, full artifact set*
+- [x] Run it a 3rd time; confirm output is consistent, not a fluke — *done: `pillar-churn-metrics.md` → 78/100, 8 atoms; all 3 runs produce 8 atoms + identical artifact set, scores 78–82 (tight band = consistent)*
 
 ---
 
