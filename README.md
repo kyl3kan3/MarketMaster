@@ -7,6 +7,10 @@ stdlib-only Python pipeline, so it runs whether or not Code Execution is enabled
 > Creation isn't the bottleneck anymore — distribution is. This engine does the
 > mechanics; you supply the hooks, voice, and judgment.
 
+**Going live?** Start with **[`GO-LIVE.md`](GO-LIVE.md)** — the master launch
+checklist — plus the step-by-step guides in [`docs/`](docs/) (owned-audience
+setup, GA4 AI-search channel, cold-email warmup, keyword brief).
+
 ## The four-mode engine
 
 ```
